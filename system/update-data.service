@@ -1,0 +1,13 @@
+[Unit]
+Description=Auto update data.csv to GitHub
+After=network-online.target
+
+[Service]
+User=honza
+WorkingDirectory=/home/honza/nas-web
+ExecStart=/bin/bash /home/honza/update-data.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

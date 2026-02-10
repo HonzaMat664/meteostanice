@@ -1,0 +1,16 @@
+[Unit]
+Description=Meteostanice Receiver Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/honza/receiver.py
+WorkingDirectory=/home/honza
+Restart=always
+RestartSec=5
+User=honza
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
