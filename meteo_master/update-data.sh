@@ -5,7 +5,7 @@
 LOGFILE="$HOME/update-data.log"
 REPO_DIR="$HOME/nas-web"
 CSV_DIR="/var/www/html/meteostanice"
-FILES_TO_COPY=("data2.csv" "pressure_correction2.csv")
+FILES_TO_COPY=("data.csv" "pressure_correction.csv")
 
 echo "$(date) | Spouštím update-data.sh" >> "$LOGFILE"
 
