@@ -36,3 +36,40 @@ DENIK
 │  TAB     = přepnutí panelů     │
 └───────────────────────────────┘
 
+───────────────────────────────
+
+změna IP adresy a GIT
+sudo nano /etc/systemd/network/10-wlan0.network
+
+obsah:
+[Match]
+Name=wlan0
+
+[Network]
+Address=192.168.1.156/24
+Gateway=192.168.1.1
+DNS=192.168.1.1
+
+sudo systemctl enable systemd-networkd # důležité, aby i po restartu zůstala nově nastavená adresa
+
+restart:
+sudo systemctl restart systemd-networkd
+hostname -I
+
+156 testunor.  116
+157 meteo.  101
+158 meteo2 106
+
+vypnutí myši v terminalu
+
+printf '\e[?1000l'
+printf '\e[?1002l'
+printf '\e[?1006l'
+nebo 
+reset
+
+MC
+mc --nosubshell # když se není možno připojit pomocí SFTP
+
+
+
