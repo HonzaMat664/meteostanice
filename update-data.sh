@@ -5,9 +5,17 @@
 LOGFILE="$HOME/update-data.log"
 REPO_DIR="$HOME/nas-web"
 CSV_DIR="/var/www/html/meteostanice"
-FILES_TO_COPY=("data.csv" "pressure_correction.csv" "data_station2.csv")
+FILES_TO_COPY=("data.csv" "pressure_correction.csv" "data_station2.csv" "sun.csv")
 
 echo "$(date) | Spouštím update-data.sh" >> "$LOGFILE"
+
+cd /home/honza/meteostaniceGIT
+
+# aktualizace dat meteostanice
+/home/honza/meteo-venv/bin/python meteostanice.py
+
+# **přidáme generování sun.csv**
+/home/honza/meteo-venv/bin/python sun.py
 
 # přejdi do repozitáře
 cd "$REPO_DIR" || { echo "$(date) | Chyba: Nelze přejít do $REPO_DIR" >> "$LOGFILE"; exit 1; }

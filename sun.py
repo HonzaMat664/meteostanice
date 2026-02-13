@@ -45,7 +45,7 @@ def phase_name(p):
 moon_phase_text = phase_name(moon_phase_val)
 
 # Zápis do CSV
-with open("sun.csv", "w", newline="") as f:
+with open("/var/www/html/meteostanice/sun.csv", "w", newline="") as f:
     writer = csv.writer(f)
     writer.writerow(["date","sunrise","sunset","day_length","moonrise","moonset","moon_phase"])
     writer.writerow([
