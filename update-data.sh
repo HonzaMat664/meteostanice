@@ -1,60 +1,40 @@
 #!/bin/bash
-# update-data.sh – automaticky commitne a pushne nové CSV do GitHubu
-# Log: ~/update-data.log
+# Meteostanice – update dat a push na GitHub
+# ----------------------------------------
+
+set -e  # pokud některý příkaz selže, skript okamžitě skončí
 
 LOGFILE="$HOME/update-data.log"
 REPO_DIR="$HOME/nas-web"
 CSV_DIR="/var/www/html/meteostanice"
 FILES_TO_COPY=("data.csv" "pressure_correction.csv" "data_station2.csv" "sun.csv")
 
-echo "$(date) | Spouštím update-data.sh" >> "$LOGFILE"
+echo "=== $(date) – Update start ===" >> "$LOGFILE"
 
-cd /home/honza/meteostaniceGIT
+cd "$HOME/meteostaniceGIT"
 
-# aktualizace dat meteostanice
-/home/honza/meteo-venv/bin/python meteostanice.py
+# 1️⃣ Vygeneruj hlavní data meteostanice
+echo "Generating meteostation data..." >> "$LOGFILE"
+$HOME/meteo-venv/bin/python meteostanice.py >> "$LOGFILE" 2>&1
 
-# **přidáme generování sun.csv**
-/home/honza/meteo-venv/bin/python sun.py
+# 2️⃣ Vygeneruj Sun/Moon data do sun.csv
+echo "Generating sun/moon data..." >> "$LOGFILE"
+$HOME/meteo-venv/bin/python sun.py >> "$LOGFILE" 2>&1
 
-# přejdi do repozitáře
-cd "$REPO_DIR" || { echo "$(date) | Chyba: Nelze přejít do $REPO_DIR" >> "$LOGFILE"; exit 1; }
-
-# zkopíruj CSV soubory do repozitáře
-for f in "${FILES_TO_COPY[@]}"; do
-    if cp "$CSV_DIR/$f" "$REPO_DIR/"; then
-        echo "$(date) | Zkopírován $f do repozitáře" >> "$LOGFILE"
+# 3️⃣ Zkopíruj CSV soubory do repozitáře
+for file in "${FILES_TO_COPY[@]}"; do
+    if [ -f "$CSV_DIR/$file" ]; then
+        cp "$CSV_DIR/$file" "$REPO_DIR/"
+        echo "Copied $file to repo" >> "$LOGFILE"
     else
-        echo "$(date) | Chyba: Nelze zkopírovat $f" >> "$LOGFILE"
+        echo "Warning: $file not found in $CSV_DIR" >> "$LOGFILE"
     fi
 done
 
-# git add nové/změněné soubory
-git add "${FILES_TO_COPY[@]}"
+# 4️⃣ Commit a push
+cd "$REPO_DIR"
+git add *.csv web/*
+git commit -m "Update data $(date '+%Y-%m-%d %H:%M')" >> "$LOGFILE" 2>&1 || echo "No changes to commit" >> "$LOGFILE"
+git push >> "$LOGFILE" 2>&1
 
-# commit pouze pokud jsou změny
-if ! git diff --cached --quiet; then
-    git commit -m "Auto-update CSV z meteostanice $(date '+%Y-%m-%d %H:%M:%S')"
-    echo "$(date) | Commitnuty nové CSV" >> "$LOGFILE"
-else
-    echo "$(date) | Žádné změny k commitnutí" >> "$LOGFILE"
-fi
-
-# fetch + rebase z GitHubu
-git fetch origin
-if git rebase origin/main; then
-    echo "$(date) | Rebase úspěšný" >> "$LOGFILE"
-else
-    echo "$(date) | Rebase narazil na konflikt – ručně vyřeš" >> "$LOGFILE"
-    exit 1
-fi
-
-# push na GitHub
-if git push origin main; then
-    echo "$(date) | Push úspěšný" >> "$LOGFILE"
-else
-    echo "$(date) | Push selhal – zkontroluj token/SSH" >> "$LOGFILE"
-    exit 1
-fi
-
-echo "$(date) | update-data.sh dokončen" >> "$LOGFILE"
+echo "=== $(date) – Update finished ===" >> "$LOGFILE"
