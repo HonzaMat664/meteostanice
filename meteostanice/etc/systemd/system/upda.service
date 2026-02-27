@@ -1,9 +1,0 @@
-[Unit]
-Description=Automatická synchronizace CSV do GitHub repozitáře
-After=network.target
-
-[Service]
-Type=oneshot
-User=honza
-WorkingDirectory=/home/honza/nas-web
-ExecStart=/home/honza/upda.sh

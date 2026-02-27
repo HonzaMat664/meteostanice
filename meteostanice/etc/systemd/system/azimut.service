@@ -1,0 +1,9 @@
+[Unit]
+Description=Meteostanice - aktualni poloha Slunce a Mesice (oneshot)
+After=network.target
+
+[Service]
+Type=oneshot
+User=honza
+ExecStart=/usr/bin/python3 /home/honza/meteostanice/azimut.py
+TimeoutStartSec=20

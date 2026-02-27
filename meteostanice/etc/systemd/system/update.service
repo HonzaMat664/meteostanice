@@ -1,0 +1,12 @@
+[Unit]
+Description=Synchronizace CSV na GitHub
+After=network.target
+
+[Service]
+Type=oneshot
+User=honza
+ExecStart=/home/honza/meteostanice/update.sh
+TimeoutStartSec=60
+
+[Install]
+WantedBy=multi-user.target

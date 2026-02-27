@@ -1,0 +1,11 @@
+[Unit]
+Description=Spousteni astro.py jednou denne
+
+[Timer]
+# Spustí každý den v 00:05
+OnCalendar=*-*-* 00:05:00
+Persistent=true
+Unit=astro.service
+
+[Install]
+WantedBy=timers.target

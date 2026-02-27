@@ -1,0 +1,11 @@
+[Unit]
+Description=Spousteni azimut.py kazdou minutu
+
+[Timer]
+OnBootSec=30sec
+OnUnitActiveSec=1min
+Persistent=true
+Unit=azimut.service
+
+[Install]
+WantedBy=timers.target

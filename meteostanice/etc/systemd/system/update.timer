@@ -1,0 +1,11 @@
+[Unit]
+Description=Spousteni update.sh kazdych 2 minut
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=2min
+Persistent=true
+Unit=update.service
+
+[Install]
+WantedBy=timers.target
