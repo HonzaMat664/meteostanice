@@ -1,0 +1,11 @@
+[Unit]
+Description=Spousteni mereni kazdych 5 minut
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+Persistent=true
+Unit=meteomeasure.service
+
+[Install]
+WantedBy=timers.target

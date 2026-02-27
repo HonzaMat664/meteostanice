@@ -1,0 +1,9 @@
+[Unit]
+Description=Meteostanice - mereni cidel (oneshot)
+After=network.target
+
+[Service]
+Type=oneshot
+User=honza
+ExecStart=/usr/bin/python3 /home/honza/meteostanice/measure.py
+TimeoutStartSec=30

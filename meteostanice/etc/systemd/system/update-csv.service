@@ -1,0 +1,8 @@
+[Unit]
+Description=Automatická aktualizace CSV do GitHub
+
+[Service]
+Type=oneshot
+ExecStart=/home/honza/upda.sh
+User=honza
+WorkingDirectory=/home/honza/nas-web
