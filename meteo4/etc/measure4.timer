@@ -1,0 +1,11 @@
+[Unit]
+Description=Spousteni measure4.py kazdych 10 minut
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=10min
+Persistent=true
+Unit=measure4.service
+
+[Install]
+WantedBy=timers.target

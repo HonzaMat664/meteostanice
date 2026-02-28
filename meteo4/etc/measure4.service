@@ -1,0 +1,12 @@
+[Unit]
+Description=Slave DS18B20 – oneshot measure4
+After=network.target
+
+[Service]
+Type=oneshot
+User=honza
+ExecStart=/usr/bin/python3 /home/honza/measure4.py
+TimeoutStartSec=60
+
+[Install]
+WantedBy=multi-user.target
