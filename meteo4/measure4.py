@@ -17,14 +17,14 @@ def timeout_handler(signum, frame):
     sys.exit(1)
 
 signal(SIGALRM, timeout_handler)
-alarm(60)  # max 60 s
+alarm(60)
 
 # ==========================
 # Konfigurace
 # ==========================
-csv_file = "/home/honza/data4.csv"
+csv_file = "/home/honza/data/data4.csv"
 remote_host = "192.168.1.159"
-remote_path = "/home/honza/nas-web/data4.csv"
+remote_path = "/home/honza/nas-web/data/data4.csv"
 remote_user = "honza"
 data4_path = "/home/honza/data4.py"
 
@@ -65,22 +65,23 @@ def write_data_py(temps):
             f.write(f"{sensor_id.replace('-', '_')} = {temp}\n")
 
 # ==========================
-# Zápis do CSV
+# Zápis do CSV (sjednocený DateTime)
 # ==========================
 def zapis_do_csv(temps):
     now = datetime.now()
-    datum = now.strftime("%Y-%m-%d")
-    cas = now.strftime("%H:%M:%S")
+    datetime_string = now.strftime("%Y-%m-%d %H:%M:%S")
 
+    # vytvoření souboru s hlavičkou
     if not os.path.exists(csv_file):
         with open(csv_file, "w", newline="") as f:
             writer = csv.writer(f)
-            header = ["Datum","Cas"] + list(temps.keys())
+            header = ["DateTime"] + list(temps.keys())
             writer.writerow(header)
 
+    # zápis řádku
     with open(csv_file, "a", newline="") as f:
         writer = csv.writer(f)
-        row = [datum, cas] + list(temps.values())
+        row = [datetime_string] + list(temps.values())
         writer.writerow(row)
 
 # ==========================
@@ -98,11 +99,14 @@ def send_csv():
 # ==========================
 if __name__ == "__main__":
     temps = read_all_ds18b20()
+
     for sensor, temp in temps.items():
         print(sensor, ":", temp, "°C")
+
     write_data_py(temps)
     zapis_do_csv(temps)
     send_csv()
+
     print("CSV posláno na", remote_host)
 
     alarm(0)

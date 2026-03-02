@@ -1,0 +1,9 @@
+[Unit]
+Description=Meteostanice measure3 - jedno mereni
+After=network.target
+
+[Service]
+Type=oneshot
+User=honza
+WorkingDirectory=/home/honza
+ExecStart=/usr/bin/python3 /home/honza/measure3.py
