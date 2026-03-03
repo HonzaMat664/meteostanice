@@ -2,14 +2,15 @@
 # update.sh – automatická synchronizace CSV s GitHub (oneshot)
 # Umístění: /home/honza/meteostanice/update.sh
 
-# Timeout (max 60 s) 
+# Timeout (max 60 s)
 timeout 60s bash <<'EOF'
 
 # Přejít do repozitáře
 cd /home/honza/nas-web || exit 1
 
 # Přidat CSV soubory
-git add data.csv azimut.csv vychod.csv
+# git add data.csv azimut.csv vychod.csv data4.csv data3.csv
+git add data/*.csv
 
 # Commit (i prázdný)
 git commit -m "Automatická aktualizace CSV $(date '+%Y-%m-%d %H:%M:%S')" --allow-empty

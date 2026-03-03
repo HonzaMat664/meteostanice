@@ -7,6 +7,7 @@ import datetime
 import ephem
 import pytz
 import signal
+import math
 
 # ==========================
 # TIMEOUT ochrana (30 s max)
@@ -24,15 +25,20 @@ LAT = '50.1'
 LON = '14.4'
 TZ = "Europe/Prague"
 
+# ==========================
+# Čas
+# ==========================
 tz = pytz.timezone(TZ)
 now_local = datetime.datetime.now(tz)
 now_utc = now_local.astimezone(pytz.utc)
-today = now_local.date()
+
+# STEJNÝ FORMÁT JAKO PŘEDCHOZÍ SKRIPT
+casovy_razitko = now_local.strftime("%d.%m.%Y %H:%M:%S")
 
 # ==========================
 # CSV adresář
 # ==========================
-csv_dir = os.path.expanduser("~/nas-web")
+csv_dir = "/home/honza/nas-web/data"
 os.makedirs(csv_dir, exist_ok=True)
 csv_file = os.path.join(csv_dir, "vychod.csv")
 
@@ -54,13 +60,13 @@ sunset  = ephem.localtime(observer.next_setting(sun))
 # ==========================
 # Měsíc
 # ==========================
-moon = ephem.Moon()
+moon = ephem.Moon(observer)
+
 moonrise = ephem.localtime(observer.next_rising(moon))
 moonset  = ephem.localtime(observer.next_setting(moon))
 
-moon.compute(observer)
-moon_alt = float(moon.alt) * 180 / 3.141592653589793
-moon_az  = float(moon.az) * 180 / 3.141592653589793
+moon_alt = math.degrees(moon.alt)
+moon_az  = math.degrees(moon.az)
 phase = round(moon.phase, 1)
 
 if phase < 1:
@@ -77,20 +83,30 @@ else:
 next_full = ephem.localtime(ephem.next_full_moon(observer.date))
 
 # ==========================
+# Přeformátování časů
+# ==========================
+sunrise_str = sunrise.strftime("%d.%m.%Y %H:%M:%S")
+sunset_str  = sunset.strftime("%d.%m.%Y %H:%M:%S")
+moonrise_str = moonrise.strftime("%d.%m.%Y %H:%M:%S")
+moonset_str  = moonset.strftime("%d.%m.%Y %H:%M:%S")
+next_full_str = next_full.strftime("%d.%m.%Y %H:%M:%S")
+
+# ==========================
 # Debug print
 # ==========================
 print("=== DENNÍ DATA ===")
-print("Slunce východ:", sunrise)
-print("Slunce západ :", sunset)
+print("Čas zápisu:", casovy_razitko)
+print("Slunce východ:", sunrise_str)
+print("Slunce západ :", sunset_str)
 print("Měsíc fáze   :", phase_text)
 print("Osvětlení    :", phase, "%")
-print("Nejbližší úplněk:", next_full)
+print("Nejbližší úplněk:", next_full_str)
 
 # ==========================
 # Zápis do CSV
 # ==========================
 header = [
-    "Datum",
+    "Datum_cas",
     "Slunce_vychod", "Slunce_zapad",
     "Mesic_vychod", "Mesic_zapad",
     "Mesic_vyska", "Mesic_azimut",
@@ -99,12 +115,12 @@ header = [
 ]
 
 row = [
-    today,
-    sunrise, sunset,
-    moonrise, moonset,
+    casovy_razitko,
+    sunrise_str, sunset_str,
+    moonrise_str, moonset_str,
     round(moon_alt,2), round(moon_az,2),
     phase_text, phase,
-    next_full
+    next_full_str
 ]
 
 # Vytvoření CSV, pokud neexistuje

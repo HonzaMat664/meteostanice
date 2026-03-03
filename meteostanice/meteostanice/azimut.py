@@ -29,10 +29,13 @@ LON = '14.4'
 now_utc = datetime.datetime.utcnow()
 now_local = datetime.datetime.now()
 
+# SPOJENÝ DATUM + ČAS
+casovy_razitko = now_local.strftime("%d.%m.%Y %H:%M:%S")
+
 # ==========================
 # Vytvoření adresáře CSV
 # ==========================
-csv_dir = os.path.expanduser("~/nas-web")
+csv_dir = os.path.expanduser("~/nas-web/data")
 os.makedirs(csv_dir, exist_ok=True)
 csv_file = os.path.join(csv_dir, "azimut.csv")
 
@@ -62,7 +65,7 @@ moon_az  = math.degrees(moon.az)
 # Debug print
 # ==========================
 print("=== AKTUÁLNÍ POLOHA ===")
-print("UTC čas:", now_utc.strftime("%H:%M:%S"))
+print("Lokální čas:", casovy_razitko)
 print("Slunce:", round(sun_alt,2), "° /", round(sun_az,2), "°")
 print("Měsíc :", round(moon_alt,2), "° /", round(moon_az,2), "°")
 
@@ -70,14 +73,13 @@ print("Měsíc :", round(moon_alt,2), "° /", round(moon_az,2), "°")
 # Zápis do CSV
 # ==========================
 header = [
-    "Datum", "Cas",
+    "Datum_cas",
     "Slunce_vyska", "Slunce_azimut",
     "Mesic_vyska", "Mesic_azimut"
 ]
 
 row = [
-    now_local.strftime("%Y-%m-%d"),
-    now_local.strftime("%H:%M:%S"),
+    casovy_razitko,
     round(sun_alt,2), round(sun_az,2),
     round(moon_alt,2), round(moon_az,2)
 ]

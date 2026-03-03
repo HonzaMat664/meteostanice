@@ -19,7 +19,7 @@ signal.alarm(20)
 # ==========================
 # KONSTANTY
 # ==========================
-CSV_FILE = "/home/honza/nas-web/data.csv"
+CSV_FILE = "/home/honza/nas-web/data/data.csv"
 CSV_PRESSURE_FILE = "/home/honza/pressure_log.csv"
 
 ALTITUDE_M = 350
