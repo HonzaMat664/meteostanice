@@ -32,8 +32,8 @@ tz = pytz.timezone(TZ)
 now_local = datetime.datetime.now(tz)
 now_utc = now_local.astimezone(pytz.utc)
 
-# STEJNÝ FORMÁT JAKO PŘEDCHOZÍ SKRIPT
-casovy_razitko = now_local.strftime("%d.%m.%Y %H:%M:%S")
+# NOVÝ ISO FORMÁT
+casovy_razitko = now_local.strftime("%Y-%m-%d %H:%M:%S")
 
 # ==========================
 # CSV adresář
@@ -83,13 +83,13 @@ else:
 next_full = ephem.localtime(ephem.next_full_moon(observer.date))
 
 # ==========================
-# Přeformátování časů
+# Přeformátování časů (ISO)
 # ==========================
-sunrise_str = sunrise.strftime("%d.%m.%Y %H:%M:%S")
-sunset_str  = sunset.strftime("%d.%m.%Y %H:%M:%S")
-moonrise_str = moonrise.strftime("%d.%m.%Y %H:%M:%S")
-moonset_str  = moonset.strftime("%d.%m.%Y %H:%M:%S")
-next_full_str = next_full.strftime("%d.%m.%Y %H:%M:%S")
+sunrise_str = sunrise.strftime("%Y-%m-%d %H:%M:%S")
+sunset_str  = sunset.strftime("%Y-%m-%d %H:%M:%S")
+moonrise_str = moonrise.strftime("%Y-%m-%d %H:%M:%S")
+moonset_str  = moonset.strftime("%Y-%m-%d %H:%M:%S")
+next_full_str = next_full.strftime("%Y-%m-%d %H:%M:%S")
 
 # ==========================
 # Debug print
@@ -118,7 +118,7 @@ row = [
     casovy_razitko,
     sunrise_str, sunset_str,
     moonrise_str, moonset_str,
-    round(moon_alt,2), round(moon_az,2),
+    round(moon_alt, 2), round(moon_az, 2),
     phase_text, phase,
     next_full_str
 ]

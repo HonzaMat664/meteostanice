@@ -29,8 +29,8 @@ LON = '14.4'
 now_utc = datetime.datetime.utcnow()
 now_local = datetime.datetime.now()
 
-# SPOJENÝ DATUM + ČAS
-casovy_razitko = now_local.strftime("%d.%m.%Y %H:%M:%S")
+# NOVÝ ISO FORMÁT
+casovy_razitko = now_local.strftime("%Y-%m-%d %H:%M:%S")
 
 # ==========================
 # Vytvoření adresáře CSV
@@ -66,8 +66,8 @@ moon_az  = math.degrees(moon.az)
 # ==========================
 print("=== AKTUÁLNÍ POLOHA ===")
 print("Lokální čas:", casovy_razitko)
-print("Slunce:", round(sun_alt,2), "° /", round(sun_az,2), "°")
-print("Měsíc :", round(moon_alt,2), "° /", round(moon_az,2), "°")
+print("Slunce:", round(sun_alt, 2), "° /", round(sun_az, 2), "°")
+print("Měsíc :", round(moon_alt, 2), "° /", round(moon_az, 2), "°")
 
 # ==========================
 # Zápis do CSV
@@ -80,8 +80,8 @@ header = [
 
 row = [
     casovy_razitko,
-    round(sun_alt,2), round(sun_az,2),
-    round(moon_alt,2), round(moon_az,2)
+    round(sun_alt, 2), round(sun_az, 2),
+    round(moon_alt, 2), round(moon_az, 2)
 ]
 
 # Vytvoření CSV, pokud neexistuje
