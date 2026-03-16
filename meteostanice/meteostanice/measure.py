@@ -23,7 +23,7 @@ CSV_FILE = "/home/honza/nas-web/data/data.csv"
 CSV_PRESSURE_FILE = "/home/honza/pressure_log.csv"
 
 ALTITUDE_M = 350
-OFFSET_HPA = -2.2
+OFFSET_HPA = -0.45
 
 # ==========================
 # I2C adresy
