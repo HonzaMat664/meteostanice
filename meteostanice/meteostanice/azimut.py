@@ -17,12 +17,10 @@ def timeout_handler(signum, frame):
 signal.signal(signal.SIGALRM, timeout_handler)
 signal.alarm(20)
 
-# ==========================
 # Konstanty
 # ==========================
-LAT = '50.1'
-LON = '14.4'
-
+LAT = '49.8922106'
+LON = '15.5592397'
 # ==========================
 # Čas
 # ==========================
