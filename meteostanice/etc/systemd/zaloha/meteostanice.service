@@ -1,0 +1,13 @@
+[Unit]
+Description=Meteostanice služba
+After=network.target
+
+[Service]
+User=honza
+WorkingDirectory=/home/honza
+ExecStart=/usr/bin/python3 /home/honza/meteo.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Spouští upda.service každých 10 minut
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
