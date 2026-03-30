@@ -7,9 +7,9 @@ import math
 # Nastavení pozorovatele
 # ===============================
 obs = ephem.Observer()
-obs.lat = '50.1'
-obs.lon = '15.8'
-obs.elevation = 300
+obs.lat = '49.8922106'
+obs.lon = '15.5592397'
+obs.elevation = 350
 
 # začátek dne (UTC)
 start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
