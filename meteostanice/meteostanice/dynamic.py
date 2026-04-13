@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 JSON_FILE = "/home/honza/nas-web/data/dynamic_24h.json"
 
 # =========================
-# OBSERVER (doplň si svoje)
+# OBSERVER
 # =========================
 obs = ephem.Observer()
 obs.lat = '49.8922106'
@@ -17,11 +17,11 @@ obs.elevation = 400
 obs.pressure = 0
 
 # =========================
-# STABILNÍ ANCHOR (KLÍČ FIXU)
+# STABILNÍ ASTRONOMICKÝ DEN (UTC)
 # =========================
 now = datetime.now(timezone.utc)
 
-# vždy pevná půlnoc UTC
+# vždy pevná UTC půlnoc
 start = datetime(
     now.year,
     now.month,
@@ -32,9 +32,9 @@ start = datetime(
 measurements = []
 
 # =========================
-# VÝPOČET 24H (144 bodů po 10 min)
+# VÝPOČET (24h po 10 minutách)
 # =========================
-for i in range(0, 24 * 6):
+for i in range(24 * 6):
     current_time = start + timedelta(minutes=10 * i)
 
     obs.date = current_time
@@ -71,7 +71,7 @@ for i in range(0, 24 * 6):
     })
 
 # =========================
-# ULOŽENÍ (STRUKTURA ZACHOVÁNA)
+# ULOŽENÍ JSON
 # =========================
 with open(JSON_FILE, "w") as f:
     json.dump({"measurements": measurements}, f, indent=2)
