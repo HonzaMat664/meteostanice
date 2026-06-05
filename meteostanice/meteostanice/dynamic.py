@@ -11,8 +11,8 @@ JSON_FILE = "/home/honza/nas-web/data/dynamic_24h.json"
 # OBSERVER
 # =========================
 obs = ephem.Observer()
-obs.lat = '49.8922106'
-obs.lon = '16.2829961'
+obs.lat = '49.892211'
+obs.lon = '15.559240'
 obs.elevation = 400
 obs.pressure = 0
 
